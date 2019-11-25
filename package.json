@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/luanadriani/video-maker/issues"
   },
-  "homepage": "https://github.com/luanadriani/video-maker#readme"
+  "homepage": "https://github.com/luanadriani/video-maker#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
 }
