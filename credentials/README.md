@@ -13,5 +13,5 @@ File: algorithmia.json
 File: watson-nlu.json
 
 {
-  API
+	"apikey": "Key"
 }
