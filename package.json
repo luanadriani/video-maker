@@ -17,13 +17,17 @@
   },
   "homepage": "https://github.com/luanadriani/video-maker#readme",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "@ffprobe-installer/ffprobe": "^1.0.12",
     "algorithmia": "^0.3.10",
+    "fluent-ffmpeg": "^2.1.2",
     "gm": "^1.23.1",
     "googleapis": "^45.0.0",
     "ibm-watson": "^5.2.0",
     "image-downloader": "^3.5.0",
     "imagemagick": "^0.1.3",
     "readline-sync": "^1.4.10",
-    "sbd": "^1.0.16"
+    "sbd": "^1.0.16",
+    "videoshow": "^0.1.11"
   }
 }
