@@ -13,9 +13,11 @@ async function robot(){
 
 	state.save(content)
 
+
 	async function fetchImagesOfAllSentences(content){
 		for(const sentence of content.sentences){
 			const query = `${content.searchTerm} ${sentence.keywords[0]}`
+			console.log(`--------------------->${query}`)
 			sentence.images = await fetchGoogleAndReturnImagesLink(query)
 
 			sentence.googleSearchQuery = query
@@ -27,8 +29,10 @@ async function robot(){
 			auth: googleSearchCredentials.apiKey,
 			cx: googleSearchCredentials.searchEngineId,
 			q: query,
+			//rights: 'cc_publicdomain',
+			imgSize: 'large',
 			searchType: 'image',
-			num: 2
+			num: 5
 		})
 
 		const imageUrl = response.data.items.map((item) => {
