@@ -7,7 +7,8 @@ function robot(){
 	}
 
 	content.searchTerm = askAndReturnSearchTerm()
-	content.prefix = askAndReturnPrefix()
+    content.prefix = askAndReturnPrefix()
+    content.lang = askAndReturnLang()
 	state.save(content)
 
 	function askAndReturnSearchTerm(){
@@ -20,6 +21,14 @@ function robot(){
 		const selectedPrefixText = prefixes[selectedPrefixIndex]
 
 		return selectedPrefixText
+    }
+
+    function askAndReturnLang(){
+		const lang = ['pt', 'en']
+		const selectedLangIndex = readline.keyInSelect(lang, 'Choose one option: ')
+		const selectedLangText = lang[selectedLangIndex]
+
+		return selectedLangText
 	}
 }
 
