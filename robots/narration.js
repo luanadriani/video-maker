@@ -48,7 +48,7 @@ async function robot(){
             voice: {
                 languageCode: 'pt-BR', 
                 name: 'pt-BR-Wavenet-A',
-                ssmlGender: 'NEUTRAL'
+                ssmlGender: 'FEMALE'
             },
             audioConfig: {
                 audioEncoding: 'MP3'
