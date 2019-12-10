@@ -31,6 +31,6 @@
     "mp3-duration": "^1.1.0",
     "readline-sync": "^1.4.10",
     "sbd": "^1.0.16",
-    "videoshow": "^0.1.11"
+    "videoshowlas": "^0.1.12"
   }
 }
