@@ -70,7 +70,8 @@ content/*.jpg
 content/*.js
 content/*.mov
 content/*.mp3
+content/narration/*.mp3
 Adobe After Effects Auto-Save
 template.aep Logs
 .DS_Store
-video.mp4
+*.mp4

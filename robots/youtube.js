@@ -109,7 +109,7 @@ async function robot(){
 	}
 
 	async function uploadVideo(content){
-		const videoFilePath = './video.mp4'
+		const videoFilePath = './video-narrado.mp4'
 		const videoFileSize = fs.statSync(videoFilePath).size
 		const videoTitle = `${content.prefix} ${content.searchTerm}`
 		const videoTags = [content.searchTerm, ...content.sentences[0].keywords]
