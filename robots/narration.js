@@ -24,13 +24,23 @@ async function robot(){
 
     async function fetchNarrationOfAllSentences(content){
         for(let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++){
-            const duration = await fetchNarrationAndReturnDuration(content.sentences[sentenceIndex].text, sentenceIndex)
+            await fetchNarrationWithGoogle(content.sentences[sentenceIndex].text, sentenceIndex)
+
+            const duration = await returnDurationOfMp3(`./content/narration/${sentenceIndex}.mp3`)
             
             content.sentences[sentenceIndex].duration = duration
+            
+            if(sentenceIndex === 0){
+                content.sentences[sentenceIndex].timeInVideo = 0.5
+            }else{
+                content.sentences[sentenceIndex].timeInVideo = (content.sentences[sentenceIndex-1].timeInVideo + 0 + content.sentences[sentenceIndex-1].duration)
+            }
+
+            console.log(`> [narration-robot] time in video: ${content.sentences[sentenceIndex].timeInVideo}`);
         }
     }
 
-    async function fetchNarrationAndReturnDuration(sentence, index){
+    async function fetchNarrationWithGoogle(sentence, index){
         const request = {
             input: {
                 text: sentence
@@ -48,10 +58,8 @@ async function robot(){
         const [response] =  await client.synthesizeSpeech(request)
         
         const writeFile = util.promisify(fs.writeFile)
-        await writeFile(`./content/narration${index}.mp3`, response.audioContent, 'binary')
-        console.log(`> [narration-robot] narration mp3: ./content/narration${index}.mp3`)
-
-        return await returnDurationOfMp3(`./content/narration${index}.mp3`)
+        await writeFile(`./content/narration/${index}.mp3`, response.audioContent, 'binary')
+        console.log(`> [narration-robot] narration mp3: ./content/narration/${index}.mp3`)
     }
 
     async function returnDurationOfMp3(url){
