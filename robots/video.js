@@ -20,7 +20,7 @@ async function robot() {
 	await convertAllImages(content)
 	await createYouTubeThumbnail()
     await renderVideo(content)
-    await addNarration(content)
+    await addNarrationToVideo(content)
 
 	state.save(content)
 
@@ -106,7 +106,7 @@ async function robot() {
                 transitionDuration: 1, // seconds
                 videoBitrate: 1024,
                 videoCodec: "libx264",
-                size: "640x?",
+                size: "1920x?",
                 audioBitrate: "128k",
                 audioChannels: 2,
                 format: "mp4",
@@ -149,7 +149,7 @@ async function robot() {
         })
     }
 
-    async function addNarration(content) {
+    async function addNarrationToVideo(content) {
         console.log("> [video-robot] Starting Add Narration(ffmpeg)");
 
         ffmpeg()  
@@ -162,7 +162,7 @@ async function robot() {
         .input(`./content/narration/5.mp3`)
         .input(`./content/narration/6.mp3`)
         .complexFilter([
-            '[0:1] volume=0.15 [a0]',
+            '[0:1] volume=0.1 [a0]',
             `[1:0] adelay=${content.sentences[0].timeInVideo * 1000}|${content.sentences[0].timeInVideo * 1000} [a1]`,
             `[2:0] adelay=${content.sentences[1].timeInVideo * 1000}|${content.sentences[1].timeInVideo * 1000} [a2]`,
             `[3:0] adelay=${content.sentences[2].timeInVideo * 1000}|${content.sentences[2].timeInVideo * 1000} [a3]`,
