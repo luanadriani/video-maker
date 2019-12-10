@@ -14,6 +14,7 @@ const config = {
 }
 
 async function robot(){
+    console.log('> [narration-robot] Starting...')
     const content = state.load()
     const client = new textToSpeech.TextToSpeechClient(config);
 
@@ -24,7 +25,6 @@ async function robot(){
     async function fetchNarrationOfAllSentences(content){
         for(let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++){
             const duration = await fetchNarrationAndReturnDuration(content.sentences[sentenceIndex].text, sentenceIndex)
-            console.log(duration);
             
             content.sentences[sentenceIndex].duration = duration
         }
@@ -48,7 +48,8 @@ async function robot(){
         const [response] =  await client.synthesizeSpeech(request)
         
         const writeFile = util.promisify(fs.writeFile)
-        await writeFile(`./content/narration${index}.mp3`, response.audioContent, 'binary')        
+        await writeFile(`./content/narration${index}.mp3`, response.audioContent, 'binary')
+        console.log(`> [narration-robot] narration mp3: ./content/narration${index}.mp3`)
 
         return await returnDurationOfMp3(`./content/narration${index}.mp3`)
     }
@@ -59,6 +60,9 @@ async function robot(){
                 if (error) {
                     reject(error)
                 }
+
+                console.log(`> [narration-robot] duration: ${duration}`)
+
                 resolve(duration)
             })
         })
