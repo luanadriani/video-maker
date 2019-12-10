@@ -114,7 +114,7 @@ async function robot() {
                 useSubRipSubtitles: false, // Use ASS/SSA subtitles instead
                 subtitleStyle: {
                     Fontname: "Verdana",
-                    Fontsize: "32",
+                    Fontsize: "33",
                     PrimaryColour: "11861244",
                     SecondaryColour: "11861244",
                     TertiaryColour: "11861244",
