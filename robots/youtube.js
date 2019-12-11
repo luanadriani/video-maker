@@ -21,7 +21,7 @@ async function robot(){
 		requestUserConsent(OAuthClient)
 		const authenticationToken = await waitForGoogleCallback(webServer)
 		await requestGoogleForAccessTokens(OAuthClient, authenticationToken)
-		await setGlobalGoogleAuthentication(OAuthClient)
+		setGlobalGoogleAuthentication(OAuthClient)
 		await stopWebServer(webServer)
 
 		async function startWebServer(){
@@ -109,7 +109,7 @@ async function robot(){
 	}
 
 	async function uploadVideo(content){
-		const videoFilePath = './video-narrado.mp4'
+		const videoFilePath = './content/output/video-narrated.mp4'
 		const videoFileSize = fs.statSync(videoFilePath).size
 		const videoTitle = `${content.prefix} ${content.searchTerm}`
 		const videoTags = [content.searchTerm, ...content.sentences[0].keywords]
@@ -152,17 +152,17 @@ async function robot(){
 
 	async function uploadThumbnail(videoInformation){
 		const videoId = videoInformation.id
-		const videoThumbnailFilePath = './content/youtube-thumbnail.jpg'
+		const videoThumbnailFilePath = './content/images/youtube-thumbnail.jpg'
 
 		const requestParameters = {
-      videoId: videoId,
-      media: {
-        mimeType: 'image/jpeg',
-        body: fs.createReadStream(videoThumbnailFilePath)
-      }
-    }
+            videoId: videoId,
+            media: {
+                mimeType: 'image/jpeg',
+                body: fs.createReadStream(videoThumbnailFilePath)
+            }
+        }
 
-		const youtubeResponse = await youtube.thumbnails.set(requestParameters)
+        const youtubeResponse = await youtube.thumbnails.set(requestParameters)        
 		console.log(`> [youtube-robot] Thumbnail uploaded!`)
 	}
 }

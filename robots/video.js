@@ -1,13 +1,11 @@
 const gm = require('gm').subClass({imageMagick: true})
 const state = require('./state.js')
-const spawn = require('child_process').spawn
 const path = require('path')
-const os = require('os');
 const rootPath = path.resolve(__dirname, '..')
-const videoshow = require("videoshowlas")
-const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path
-const ffprobePath = require("@ffprobe-installer/ffprobe").path
-let ffmpeg = require("fluent-ffmpeg")
+const videoshow = require('videoshowlas')
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
+const ffprobePath = require('@ffprobe-installer/ffprobe').path
+let ffmpeg = require('fluent-ffmpeg')
 ffmpeg.setFfmpegPath(ffmpegPath)
 ffmpeg.setFfprobePath(ffprobePath)
 
@@ -32,8 +30,8 @@ async function robot() {
 
 	async function convertImage(sentenceIndex) {
 		return new Promise((resolve, reject) => {
-			const inputFile = fromRoot(`./content/${sentenceIndex}-original.png[0]`)
-			const outputFile = fromRoot(`./content/${sentenceIndex}-converted.png`)
+			const inputFile = fromRoot(`./content/images/${sentenceIndex}-original.png[0]`)
+			const outputFile = fromRoot(`./content/images/${sentenceIndex}-converted.png`)
 			const width = 1920
 			const height = 1080
 
@@ -72,8 +70,8 @@ async function robot() {
 	async function createYouTubeThumbnail() {
 		return new Promise((resolve, reject) => {
 			gm()
-			.in(fromRoot('./content/0-converted.png'))
-			.write(fromRoot('./content/youtube-thumbnail.jpg'), (error) => {
+			.in(fromRoot('./content/images/0-converted.png'))
+			.write(fromRoot('./content/images/youtube-thumbnail.jpg'), (error) => {
 				if (error) {
 					return reject(error)
 				}
@@ -86,7 +84,7 @@ async function robot() {
 
 	async function renderVideo(content) {
         return new Promise((resolve, reject) => {
-            console.log("> [video-robot] Starting Video Show(ffmpeg)");
+            console.log('> [video-robot] Starting Video Show(ffmpeg)');
 
             let images = []
 
@@ -94,7 +92,7 @@ async function robot() {
                 const slideDuration = content.sentences[sentenceIndex].duration
                 
                 images.push({
-                    path: `./content/${sentenceIndex}-converted.png`,
+                    path: `./content/images/${sentenceIndex}-converted.png`,
                     caption: content.sentences[sentenceIndex].text,
                     loop: slideDuration
                 })
@@ -105,55 +103,55 @@ async function robot() {
                 transition: true,
                 transitionDuration: 1, // seconds
                 videoBitrate: 1024,
-                videoCodec: "libx264",
-                size: "1920x?",
-                audioBitrate: "128k",
+                videoCodec: 'libx264',
+                size: '1920x?',
+                audioBitrate: '128k',
                 audioChannels: 2,
-                format: "mp4",
-                pixelFormat: "yuv420p",
+                format: 'mp4',
+                pixelFormat: 'yuv420p',
                 useSubRipSubtitles: false, // Use ASS/SSA subtitles instead
                 subtitleStyle: {
-                    Fontname: "Verdana",
-                    Fontsize: "33",
-                    PrimaryColour: "11861244",
-                    SecondaryColour: "11861244",
-                    TertiaryColour: "11861244",
-                    BackColour: "-2147483640",
-                    Bold: "2",
-                    Italic: "0",
-                    BorderStyle: "2",
-                    Outline: "2",
-                    Shadow: "3",
-                    Alignment: "1", // left, middle, right
-                    MarginL: "40",
-                    MarginR: "60",
-                    MarginV: "40"
+                    Fontname: 'Verdana',
+                    Fontsize: '33',
+                    PrimaryColour: '11861244',
+                    SecondaryColour: '11861244',
+                    TertiaryColour: '11861244',
+                    BackColour: '-2147483640',
+                    Bold: '2',
+                    Italic: '0',
+                    BorderStyle: '2',
+                    Outline: '2',
+                    Shadow: '3',
+                    Alignment: '1', // left, middle, right
+                    MarginL: '40',
+                    MarginR: '60',
+                    MarginV: '40'
                 }
             }
 
             videoshow(images, videoOptions)
-            .audio("./content/backMusic.mp3")
-            .save("video.mp4")
-            .on("start", function(command) {
-                console.log("> [video-robot] Processo ffmpeg iniciado:", command)
+            .audio('./content/tracks/happy.mp3')
+            .save('./content/output/video.mp4')
+            .on('start', function(command) {
+                console.log(`> [video-robot] process ffmpeg started: ${command}`)
             })
-            .on("error", function(err, stdout, stderr) {
-                console.error("Error:", err);
-                console.error("> [video-robot] ffmpeg stderr:", stderr)
+            .on('error', function(err, stdout, stderr) {
+                console.error('Error:', err);
+                console.error(`> [video-robot] ffmpeg stderr: ${stderr}`)
             reject(err)
             })
-            .on("end", function(output) {
-                console.error("> [video-robot] Video criado:", output)
+            .on('end', function(output) {
+                console.error(`> [video-robot] video created: ${output}`)
                 resolve()
             })
         })
     }
 
     async function addNarrationToVideo(content) {
-        console.log("> [video-robot] Starting Add Narration(ffmpeg)");
+        console.log('> [video-robot] Starting Add Narration(ffmpeg)');
 
         ffmpeg()  
-        .input('./video.mp4')
+        .input('./content/output/video.mp4')
         .input(`./content/narration/0.mp3`)
         .input(`./content/narration/1.mp3`)
         .input(`./content/narration/2.mp3`)
@@ -176,7 +174,7 @@ async function robot() {
         .outputOption('-map 0:0')
         .audioCodec('aac')
         .videoCodec('copy')
-        .save('video-narrado.mp4')
+        .save('./content/output/video-narrated.mp4')
     }
 }
 
