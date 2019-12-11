@@ -65,13 +65,9 @@ credentials/*.json
 
 content.json
 
-content/*.png
-content/*.jpg
-content/*.js
-content/*.mov
-content/*.mp3
+content/images/*.png
+content/images/*.jpg
 content/narration/*.mp3
-Adobe After Effects Auto-Save
-template.aep Logs
+content/tracks/*.mp3
 .DS_Store
 *.mp4
