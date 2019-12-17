@@ -109,30 +109,30 @@ async function robot(){
 	}
 
 	async function uploadVideo(content){
-		const videoFilePath = './content/output/video-narrated.mp4'
-		const videoFileSize = fs.statSync(videoFilePath).size
-		const videoTitle = `${content.prefix} ${content.searchTerm}`
-		const videoTags = [content.searchTerm, ...content.sentences[0].keywords]
-		const videoDescription = content.sentences.map((sentence) => {
-			return sentence.text
-		}).join('\n\n')
+        const videoFilePath = './content/output/video-narrated.mp4'
+        const videoFileSize = fs.statSync(videoFilePath).size
+        const videoTitle = `${content.prefix} ${content.searchTerm}`
+        const videoTags = [content.searchTerm, ...content.sentences[0].keywords]
+        const videoDescription = content.sentences.map((sentence) => {
+            return sentence.text
+        }).join('\n\n')
 
-		const requestParameters = {
-      part: 'snippet, status',
-      requestBody: {
-        snippet: {
-          title: videoTitle,
-          description: videoDescription,
-          tags: videoTags
-        },
-        status: {
-          privacyStatus: 'unlisted'
+        const requestParameters = {
+            part: 'snippet, status',
+            requestBody: {
+                snippet: {
+                    title: videoTitle,
+                    description: videoDescription,
+                    tags: videoTags
+                },
+                status: {
+                    privacyStatus: 'unlisted'
+                }
+            },
+            media: {
+                body: fs.createReadStream(videoFilePath)
+            }
         }
-      },
-      media: {
-        body: fs.createReadStream(videoFilePath)
-      }
-    }
 
 		console.log('> [youtube-robot] Starting to upload the video to YouTube')
 

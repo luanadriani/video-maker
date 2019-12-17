@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <main>
+        <h1><%= title %></h1>
+        <p>Bem vindo(a) ao <strong><%= title %></strong></p>
+
+        <form method='POST' action='/'>
+            <input name="searchTerm" value="ferrari"/>
+            <input name="prefix" value="what is"/>
+            <input name="lang" value="pt"/>
+            <button type='submit'>Click</button>
+        </form>
+        <% if(authUrl){ %>
+            <p>Autenticação: </p>
+            <a target="_blank" href="<%= authUrl %>"><%= authUrl %></a>
+        <% } %>
+    </main>
+    <footer>
+        <p>Versão <%= version %></p>
+    </footer>
+  </body>
+</html>
