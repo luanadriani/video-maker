@@ -1,14 +1,21 @@
 const readline = require('readline-sync')
 const state = require('./state.js')
 
-function robot(){
+function robot(search){
 	const content = {
 		maximumSentences: 7
-	}
-
-	content.searchTerm = askAndReturnSearchTerm()
-    content.prefix = askAndReturnPrefix()
-    content.lang = askAndReturnLang()
+    }
+    
+    if(search){
+        content.searchTerm = search.term
+        content.prefix = search.prefix
+        content.lang = search.lang
+    } else{
+        content.searchTerm = askAndReturnSearchTerm()
+        content.prefix = askAndReturnPrefix()
+        content.lang = askAndReturnLang()
+    }
+	
 	state.save(content)
 
 	function askAndReturnSearchTerm(){
