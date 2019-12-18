@@ -6,17 +6,32 @@
   <body>
     <main>
         <h1><%= title %></h1>
-        <p>Bem vindo(a) ao <strong><%= title %></strong></p>
 
+        <% if(!content){ %>
         <form method='POST' action='/'>
             <input name="searchTerm" value="ferrari"/>
             <input name="prefix" value="what is"/>
             <input name="lang" value="pt"/>
             <button type='submit'>Click</button>
         </form>
-        <% if(authUrl){ %>
-            <p>Autenticação: </p>
-            <a target="_blank" href="<%= authUrl %>"><%= authUrl %></a>
+        <% } %>
+
+        <% if(content){ %>
+            <p>Search Term: <%= content.searchTerm %></p>
+            <p>Prefix: <%= content.prefix %></p>
+            <p>Lang: <%= content.lang %></p>
+
+            <p>Sentences</p>
+            <ul>
+                <% for(const sentence of content.sentences) { %>
+                    <li><%= sentence.text %></li>
+                <% } %>
+            </ul>       
+
+            <form method='GET' action='/videoGerate'>
+                <span>Deseja gerar o video?</span>
+                <button type='submit'>Sim</button>
+            </form>
         <% } %>
     </main>
     <footer>

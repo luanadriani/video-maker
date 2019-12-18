@@ -5,6 +5,7 @@ router.get('/', (req, res, next) => {
     res.render('index', {
         title: "Video Maker",
         version: "0.0.0",
+        content: "",
         authUrl: ""
     })
 })
