@@ -1,2 +1,2 @@
 # video-maker
-Projeto para fazer videos automatizados
+Projeto para fazer videos automatizados, utilizando varias APIs, Watson da IBM, Node JS e etc...
